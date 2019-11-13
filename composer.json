@@ -61,6 +61,7 @@
             "phpcbf src tests"
         ],
         "serve": "php -dzend_extension=xdebug.so -S 127.0.0.1:8080 -t public",
+        "serve-api": "php -dzend_extension=xdebug.so -S 127.0.0.1:8081 bin/app.php",
         "app": "php bin/app.php",
         "page": "php bin/page.php",
         "deploy-prod": "cd bin/deploy; php deployer.phar deploy prod",
