@@ -15,7 +15,7 @@ class TestModule extends AbstractAppModule
         require_once $appDir . '/env.php';
 
         [$host, $db, $user, $password, $charset] = [
-            getenv('DB_HOST_TEST'),
+            getenv('DB_HOST'),
             getenv('DB_NAME') . '_test',
             (string) getenv('DB_USER'),
             (string) getenv('DB_PASS'),

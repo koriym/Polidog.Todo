@@ -9,7 +9,7 @@ $dsn = 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME') . ';ch
 $development = new \PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'));
 
 (new Loader($env))->parse()->putenv(true);
-$dsn = 'mysql:host=' . getenv('DB_HOST_TEST') . ';dbname=' . getenv('DB_NAME') . '_test;charset=' . getenv('DB_CHARSET');
+$dsn = 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME') . '_test;charset=' . getenv('DB_CHARSET');
 $test = new \PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'));
 
 return [
