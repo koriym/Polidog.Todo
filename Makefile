@@ -17,6 +17,8 @@ clean:
 	@docker volume prune
 
 # composer
+c-install:
+	@$(COMPOSER) install
 c-setup:
 	@$(COMPOSER) setup
 c-migrate:
