@@ -1,18 +1,29 @@
 <?php
 namespace Polidog\Todo\Module;
 
+use BEAR\Package\AbstractAppModule;
 use Ray\AuraSqlModule\AuraSqlModule;
-use Ray\Di\AbstractModule;
 
-class TestModule extends AbstractModule
+class TestModule extends AbstractAppModule
 {
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
+        $appDir = $this->appMeta->appDir;
+        require_once $appDir . '/env.php';
+
+        [$host, $db, $user, $password, $charset] = [
+            getenv('DB_HOST_TEST'),
+            getenv('DB_NAME') . '_test',
+            (string) getenv('DB_USER'),
+            (string) getenv('DB_PASS'),
+            getenv('DB_CHARSET'),
+        ];
+
         // install testing data
-        $dbConfig = 'sqlite:' . dirname(dirname(__DIR__)) . '/var/db/todo_test.sqlite3';
-        $this->install(new AuraSqlModule($dbConfig));
+        $dsn = "mysql:host={$host};dbname={$db};charset={$charset}";
+        $this->install(new AuraSqlModule($dsn, $user, $password));
     }
 }

@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  web:
+    image: momoirospanner/docker-nginx:1.17.5
+    container_name: "web"
+    ports:
+      - "18080:80"
+    volumes:
+      - .:/var/www/html/
+    restart: always
+
+  app:
+    image: momoirospanner/docker-php-fpm:7.3.11-dev
+    container_name: "app"
+    volumes:
+      - .:/var/www/html/
+    links:
+      - db
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: momoirospanner/docker-mysql:5.7.28
+    container_name: "db"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 13306:3306
+    volumes:
+      - mysql-db:/var/lib/mysql
+
+volumes:
+  mysql-db:
+    driver: local

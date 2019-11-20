@@ -10,6 +10,7 @@ use BEAR\Sunday\Module\Constant\NamedModule;
 use Koriym\QueryLocator\QueryLocatorModule;
 use Polidog\Todo\Form\TodoForm;
 use Ray\AuraSqlModule\AuraSqlModule;
+use Ray\AuraSqlModule\AuraSqlQueryModule;
 use Ray\IdentityValueModule\IdentityValueModule;
 use Ray\Query\SqlQueryModule;
 use Ray\WebFormModule\AuraInputModule;
@@ -24,6 +25,15 @@ class AppModule extends AbstractAppModule
     {
         $appDir = $this->appMeta->appDir;
         require_once $appDir . '/env.php';
+
+        [$host, $db, $user, $password, $charset] = [
+            getenv('DB_HOST'),
+            getenv('DB_NAME'),
+            (string) getenv('DB_USER'),
+            (string) getenv('DB_PASS'),
+            getenv('DB_CHARSET'),
+        ];
+
         // constants
         $this->install(new IdentityValueModule());
         $this->install(new NamedModule(require $appDir . '/var/locale/en.php'));
@@ -33,10 +43,11 @@ class AppModule extends AbstractAppModule
         $this->install(new JsonSchemaModule($appDir . '/var/json_schema', $appDir . '/var/json_validate'));
         $this->install(new JsonSchemaLinkHeaderModule('https://koriym.github.io/Polidog.Todo/'));
         // database
-        $dbConfig = 'sqlite:' . $appDir . '/var/db/todo.sqlite3';
-        $this->install(new AuraSqlModule($dbConfig));
-        $this->install(new SqlQueryModule($appDir . '/var/sql'));
-        $this->install(new QueryLocatorModule($appDir . '/var/sql'));
+        $dsn = "mysql:host={$host};dbname={$db};charset={$charset}";
+        $this->install(new AuraSqlModule($dsn, $user, $password));
+        $this->install(new SqlQueryModule($appDir . '/var/db/sql'));
+        $this->install(new QueryLocatorModule($appDir . '/var/db/sql'));
+        $this->install(new AuraSqlQueryModule('mysql'));
         // form
         $this->install(new AuraInputModule);
         $this->bind(TodoForm::class);
