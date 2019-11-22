@@ -10,7 +10,7 @@ passthru('chmod 775 var/log');
 
 copy(dirname(__DIR__) . '/.env.dist', dirname(__DIR__) . '/.env');
 
-$dsn = 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME') . ';charset=' . getenv('DB_CHARSET');
+$dsn = 'mysql:host=' . getenv('DB_HOST');
 $pdo = new \PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'));
 $pdo->exec('CREATE DATABASE IF NOT EXISTS ' . getenv('DB_NAME') . ' CHARACTER SET ' . getenv('DB_CHARSET'));
 $pdo->exec('CREATE DATABASE IF NOT EXISTS ' . getenv('DB_NAME') . '_test CHARACTER SET ' . getenv('DB_CHARSET'));

@@ -1,19 +1,30 @@
 language: php
+services:
+  - docker
+env:
+  - DOCKER_COMPOSE_VERSION: 1.24.1
 php:
-  - 7.2
+  - 7.3
 sudo: false
 cache:
   directories:
     - $HOME/.composer/cache
 matrix:
   include:
-    - php: 7.2
+    - php: 7.3
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose up -d
 before_script:
   - composer self-update
   - if [ -z "$dependencies" ]; then composer install; fi;
   - cp .env.dist .env
+  - composer setup
 script:
- - phpunit --coverage-text --coverage-clover=coverage.clover
+  - phpunit --coverage-text --coverage-clover=coverage.clover
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
