@@ -14,8 +14,8 @@ services:
     image: momoirospanner/docker-php-fpm:7.3.11-dev
     container_name: "app"
     volumes:
-      - .:/var/www/html/:cached
-      - vendor:/var/www/html/vendor:cached
+      - .:/var/www/html/
+      - vendor-cache:/var/www/html/vendor
       - /var/www/html/var/tmp
       - /var/www/html/.git
     links:
@@ -45,7 +45,7 @@ services:
       - redis-cache:/data
 
 volumes:
-  vendor:
+  vendor-cache:
     driver: local
   mysql-db:
     driver: local
