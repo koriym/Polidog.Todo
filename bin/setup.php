@@ -5,6 +5,11 @@ require_once dirname(__DIR__) . '/env.php';
 
 chdir(dirname(__DIR__));
 passthru('rm -rf var/tmp/*');
+
+if (! empty(getenv('DB_HOST')) && getenv('DB_HOST') === 'db') {
+    passthru('chown www-data var/tmp');
+}
+
 passthru('chmod 775 var/tmp');
 passthru('chmod 775 var/log');
 

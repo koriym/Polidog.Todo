@@ -7,14 +7,17 @@ services:
     ports:
       - "18080:80"
     volumes:
-      - .:/var/www/html/
+      - ./public:/var/www/html/public:cached
     restart: always
 
   app:
     image: momoirospanner/docker-php-fpm:7.3.11-dev
     container_name: "app"
     volumes:
-      - .:/var/www/html/
+      - .:/var/www/html/:cached
+      - vendor:/var/www/html/vendor:cached
+      - /var/www/html/var/tmp
+      - /var/www/html/.git
     links:
       - db
     depends_on:
@@ -42,6 +45,8 @@ services:
       - redis-cache:/data
 
 volumes:
+  vendor:
+    driver: local
   mysql-db:
     driver: local
   redis-cache:
