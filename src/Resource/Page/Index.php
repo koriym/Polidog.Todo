@@ -56,7 +56,7 @@ class Index extends ResourceObject
     public function onGet(string $status = null) : ResourceObject
     {
         $this->body += [
-            'todo_form' => (string) $this->todoForm,
+            'todo_form' => $this->todoForm,
             'status' => (int) $status,
             'text' => $this->viewText
         ];
@@ -81,7 +81,7 @@ class Index extends ResourceObject
         $this->code = StatusCode::MOVED_PERMANENTLY;
         $this->headers[ResponseHeader::LOCATION] = '/';
         $this->body = [
-            'todo_form' => (string) $this->todoForm
+          'todo_form' => $this->todoForm
         ];
 
         return $this;

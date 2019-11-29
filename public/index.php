@@ -6,6 +6,10 @@ require dirname(__DIR__) . '/autoload.php';
 
 $available = [
     'Accept' => [
+        // 'text/html' => 'prod-html-app',
+        // 'application/hal+json' => 'prod-hal-api-app',
+        // 'application/json' => 'prod-api-app',
+        // 'cli' => 'prod-cli-html-app'
         'text/html' => 'html-app',
         'application/hal+json' => 'hal-api-app',
         'application/json' => 'api-app',

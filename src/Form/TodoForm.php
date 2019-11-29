@@ -1,7 +1,6 @@
 <?php
 namespace Polidog\Todo\Form;
 
-use Aura\Html\Helper\Tag;
 use Ray\Di\Di\Named;
 use Ray\WebFormModule\AbstractForm;
 
@@ -36,9 +35,7 @@ class TodoForm extends AbstractForm
             'method' => 'post',
             'action' => '/',
         ]);
-        /* @var Tag $tag */
-        $tag = $this->helper->get('tag');
-        $form .= $tag('div', ['class' => 'form-group']);
+        $form .= $this->helper->tag('div', ['class' => 'form-group']);
         $form .= $this->input('title');
         $form .= $this->error('title');
         $form .= $this->helper->tag('/div') . PHP_EOL;

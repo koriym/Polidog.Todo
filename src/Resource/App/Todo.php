@@ -8,7 +8,6 @@ use Koriym\HttpConstants\ResponseHeader;
 use Koriym\HttpConstants\StatusCode;
 use Koriym\QueryLocator\QueryLocatorInject;
 use Ray\AuraSqlModule\AuraSqlInject;
-use Ray\Di\Di\Assisted;
 use Ray\Di\Di\Named;
 use Ray\IdentityValueModule\NowInterface;
 use Ray\Query\RowInterface;
@@ -52,6 +51,11 @@ class Todo extends ResourceObject
     private $deleteTodo;
 
     /**
+     * @var NowInterface
+     */
+    private $now;
+
+    /**
      * @Named("msg=app_todo,getTodo=todo_select,createTodo=todo_insert,updateTodo=todo_update,,deleteTodo=todo_delete")
      */
     public function __construct(
@@ -59,13 +63,15 @@ class Todo extends ResourceObject
         RowInterface $getTodo,
         callable $createTodo,
         callable $updateTodo,
-        callable $deleteTodo
+        callable $deleteTodo,
+        NowInterface $now
     ) {
         $this->msg = $msg;
         $this->getTodo = $getTodo;
         $this->createTodo = $createTodo;
         $this->updateTodo = $updateTodo;
         $this->deleteTodo = $deleteTodo;
+        $this->now = $now;
     }
 
     /**
@@ -94,20 +100,17 @@ class Todo extends ResourceObject
     /**
      * Create a todo
      *
-     * @param string       $title todo title
-     * @param NowInterface $now   current time
+     * @param string $title todo title
      *
-     * @Assisted({"now"})
-     * @Named("createTodo=todo_insert")
      * @ReturnCreatedResource
      */
-    public function onPost(string $title, NowInterface $now = null) : ResourceObject
+    public function onPost(string $title) : ResourceObject
     {
         ($this->createTodo)([
             'title' => $title,
             'status' => self::INCOMPLETE,
-            'created' => (string) $now,
-            'updated' => (string) $now,
+            'created' => (string) $this->now,
+            'updated' => (string) $this->now,
         ]);
         $id = $this->pdo->lastInsertId();
         $this->code = StatusCode::CREATED;

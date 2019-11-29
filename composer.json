@@ -22,7 +22,8 @@
         "phpunit/phpunit": "^7.5",
         "roave/security-advisories": "dev-master",
         "eaglewu/swoole-ide-helper": "dev-master",
-        "bear/api-doc": "^0.4"
+        "bear/api-doc": "^0.4",
+        "robmorgan/phinx": "^0.11.1"
     },
     "autoload": {
         "psr-4": {
