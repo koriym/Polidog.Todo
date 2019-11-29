@@ -5,8 +5,9 @@
 /.idea/
 /vendor/
 /build/
-/var/log/
-/var/tmp/
+/var/log/*
+/var/tmp/*
 composer.lock
 phpunit.xml
 *.sqlite3
+!.gitkeep

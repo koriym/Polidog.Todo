@@ -17,11 +17,12 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-before_script:
   - composer self-update
+install:
   - if [ -z "$dependencies" ]; then composer install; fi;
   - docker-compose up -d
   - cp .env.dist .env
+before_script:
   - composer setup
 script:
   - phpunit --coverage-text --coverage-clover=coverage.clover
